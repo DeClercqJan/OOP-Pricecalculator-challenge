@@ -1,3 +1,5 @@
+BELOW THE ORIGINAL ASSIGNMENT
+
 # Title: OOP Pricecalculator challenge
 
 - Repository: `oop-pricecalculator`
