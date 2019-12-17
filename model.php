@@ -16,7 +16,6 @@ var_dump($_COOKIE);
 class Product_DB
 {
     public $products;
-    public $product;
 
     function __construct()
     {
@@ -32,9 +31,12 @@ class Product_DB
 
     function select($product_name)
     {
-        // return $this->products;
-
-        return $product;
+        foreach ($this->products as $product) {
+            $name = 'name';
+            if ($product->$name == $product_name) {
+                return $product;
+            }
+        }
     }
 }
 

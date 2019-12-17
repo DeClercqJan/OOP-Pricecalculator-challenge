@@ -8,6 +8,7 @@
 
 $products_object = new Product_DB();
 // var_dump($products);
+// var_dump($products_object->select("hallookes"));
 
 if (isset($_GET["products_selected"])) {
     $products_selected = $_GET["products_selected"];
@@ -15,7 +16,7 @@ if (isset($_GET["products_selected"])) {
     foreach ($products_selected as $key => $value) {
         // moeilijk om aan te spreken
         // echo $key;
-        echo "$value <br>";
+        // echo "$value <br>";
         $product_selected = $products_object->select($value);
         var_dump($product_selected);
         // $test = array_search($value, $products_array->name);

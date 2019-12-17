@@ -26,8 +26,8 @@
                 // kan niet zomaar aan name die een property is tussen haakjes
                 $name = 'name';
                 $price = 'price';
-                // moet dit hieronder tussen accolades zetten, anders wil hij het niet selecteren
-                echo "<input type=checkbox name='products_selected[]' value={$product_array[$i]->$name}>{$product_array[$i]->$name} kost {$product_array[$i]->$price} <br>";
+                // moet dit hieronder tussen accolades zetten, anders wil hij het niet selecteren + moet die dan nog in 1 geval tussen quotes schrijven ...
+                echo "<input type=checkbox name='products_selected[]' value='{$product_array[$i]->$name}'>{$product_array[$i]->$name} kost {$product_array[$i]->$price} <br>";
             }
         }
         ?>
