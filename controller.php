@@ -38,18 +38,22 @@ $groups_object_accessible = $groups_object->get_all_groups();
 // var_dump($groups_object_accessible);
 sort($groups_object_accessible);
 // var_dump($groups_object_accessible);
+$groups_multidimensional = [];
 $departments = [];
 $companies = [];
 foreach ($groups_object_accessible as $group_object) {
-    var_dump($group_object);
-    if (property_exists($group_object, "group_id"))
-        {
-            echo "voor $group_object->name bestaat group_id";
-        }
-else {
-    echo "voor $group_object->name bestaat group_id niet";
-}
+    // var_dump($group_object);
+    if (property_exists($group_object, "group_id")) {
+        // echo "voor $group_object->name bestaat group_id";
+        array_push($companies, $group_object);
+    } else {
+        // echo "voor $group_object->name bestaat group_id niet";
+        array_push($departments, $group_object);
     }
+}
+array_push($groups_multidimensional, $departments);
+array_push($groups_multidimensional, $companies);
+var_dump($groups_multidimensional);
 
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
     $products_selected = $_GET["products_selected"];
