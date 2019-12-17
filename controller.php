@@ -19,20 +19,6 @@ foreach ($products_object_accessible as $product_object) {
     array_push($products, $product);
 }
 
-// let's make each customer customer class + multiple other classes, using multiple databases
-$customers_object = new Customer_DB();
-$customer_object_accessible = $customers_object->get_all_customers();
-$customers = [];
-foreach ($customer_object_accessible as $customer_object) {
-    // var_dump($customer_object);
-    $customer_name = $customer_object->name;
-    $customer_group_id = $customer_object->group_id;
-    $customer = new Customer($customer_name, 0, 0, $customer_group_id, 0, 0);
-    // var_dump($customer);
-    array_push($customers, $customer);
-}
-// var_dump($customers);
-
 $groups_object = new Group_DB();
 $groups_object_accessible = $groups_object->get_all_groups();
 // var_dump($groups_object_accessible);
@@ -53,7 +39,35 @@ foreach ($groups_object_accessible as $group_object) {
 }
 array_push($groups_multidimensional, $departments);
 array_push($groups_multidimensional, $companies);
-var_dump($groups_multidimensional);
+// var_dump($groups_multidimensional);
+
+// let's make each customer customer class + multiple other classes, using multiple databases
+$customers_object = new Customer_DB();
+$customer_object_accessible = $customers_object->get_all_customers();
+$customers = [];
+foreach ($customer_object_accessible as $customer_object) {
+    // var_dump($customer_object);
+    $customer_name = $customer_object->name;
+    $customer_group_id = $customer_object->group_id;
+    // var_dump($groups_multidimensional[1]);
+    $customer_department  = "";
+    foreach ($groups_multidimensional[1] as $department) {
+        // var_dump($customer_group_id);
+        // var_dump($department);
+        $name = 'name';
+        $group_id = 'group_id';
+        // var_dump($department->$group_id);
+        if ($customer_group_id == $department->$group_id) {
+            // echo "succes";
+            $customer_department = $department->name;
+        }
+    }
+
+    $customer = new Customer($customer_name, 0, $customer_department, $customer_group_id, 0, 0);
+    // var_dump($customer);
+    array_push($customers, $customer);
+}
+var_dump($customers);
 
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
     $products_selected = $_GET["products_selected"];
