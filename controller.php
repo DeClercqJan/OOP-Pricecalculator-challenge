@@ -23,16 +23,12 @@ $customers_object = new Customer_DB();
 $customer_object_accessible = $customers_object->get_all_customers();
 $customers = [];
 foreach ($customer_object_accessible as $customer_object) {
-    echo "test";
-    var_dump($customer_object);
+    // var_dump($customer_object);
     $customer_name = $customer_object->name;
     $customer_group_id = $customer_object->group_id;
-    // new $customer = new Customer ($customer_name, $)
-    // function construct($name, $group_id$department_id, $department, , $company, $discount)
-
-    // $customer_name = $
+    $customer = new Customer($customer_name, 0, 0, $customer_group_id, 0, 0);
     // var_dump($customer);
-    // array_push($customers, $customer);
+    array_push($customers, $customer);
 }
 var_dump($customers);
 

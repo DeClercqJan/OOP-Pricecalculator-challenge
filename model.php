@@ -148,11 +148,17 @@ class Customer extends Department
         $this->name = $name;
         parent::__construct($department_id, $department, $group_id, $company, $discount);
     }
+
+    function get_customer_name()
+    {
+        return $this->name;
+    }
 }
 
 // neemt alles correct over, creert een customer object met nodige info
 // $test_customer_class = new Customer();
 // var_dump($test_customer_class);
 
-$test_customer_multiple_classes = new Customer("Jan De Clercq", 0, "web development joh!", 69, "BeCode", 100);
+/* $test_customer_multiple_classes = new Customer("Jan De Clercq", 0, "web development joh!", 69, "BeCode", 100);
 var_dump($test_customer_multiple_classes);
+ */
