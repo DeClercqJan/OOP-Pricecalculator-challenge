@@ -1,6 +1,7 @@
 <?php
 // The Model represents the information on which the application operates--its business logic.
 // Model/: Most of your code should be here, for example the Product and Customer class.
+// NOTE: THERE ARE DIFFERENT FORMATS IN DATABASE GROUPS: DEPARTMENT, COMPANY
 
 // echo "test model.php <br>";
 
@@ -10,12 +11,9 @@ var_dump($_POST);
 var_dump($_SESSION);
 var_dump($_COOKIE);
 
-// $products_original = file_get_contents("products.json");
-// $products_array = json_decode($products_original);
-
 class Product_DB
 {
-    public $products;
+    private $products;
 
     function __construct()
     {
@@ -29,6 +27,10 @@ class Product_DB
         // TO DO
     }
 
+    function get_all_products()
+    {
+        return $this->products;
+    }
     /*  DECDIDED TO DO THIS VIA CLASS THAT IS BASED ON THIS, BUT NOT DIRECTLY HERE - MORE SECURE, I THINK
 function select($product_name)
     {
@@ -41,7 +43,6 @@ function select($product_name)
     } */
 }
 
-// NOTE: THERE ARE DIFFERENT FORMATS IN DATABASE GROUPS: DEPARTMENT, COMPANY
 class Group_DB
 {
 }
@@ -68,6 +69,7 @@ class Customer_DB
         return $this->customers;
     }
 
+    /*  DECDIDED TO DO THIS VIA CLASS THAT IS BASED ON THIS, BUT NOT DIRECTLY HERE - MORE SECURE, I THINK
     function get_customer($customer_name)
     {
         foreach ($this->customers as $customer) {
@@ -80,6 +82,7 @@ class Customer_DB
         // function set_new_customer() {}
 
     }
+    */
 }
 class Product
 {
@@ -115,6 +118,11 @@ class Company
 {
     public $company = "company";
     public $discount = 0;
+    function __construct($company, $discount)
+    {
+        $this->company = $company;
+        $this->discount = $discount;
+    }
 }
 
 class Department extends Company
@@ -122,13 +130,29 @@ class Department extends Company
     public $deparment_id = 0;
     public $department = "department";
     public $group_id = 0;
+    function __construct($department_id, $department, $group_id, $company, $discount)
+    {
+        $this->department_id = $department_id;
+        $this->department = $department;
+        $this->group_id = $group_id;
+        parent::__construct($department_id, $department, $group_id, $company, $discount);
+    }
 }
 
 class Customer extends Department
 {
     public $name = "personal name";
+
+    function construct($name, $department_id, $department, $group_id, $company, $discount)
+    {
+        $this->name = $name;
+        parent::__construct($department_id, $department, $group_id, $company, $discount);
+    }
 }
 
 // neemt alles correct over, creert een customer object met nodige info
 // $test_customer_class = new Customer();
 // var_dump($test_customer_class);
+
+$test_customer_multiple_classes = new Customer("Jan De Clercq", 0, "web development joh!", 69, "BeCode", 100);
+var_dump($test_customer_multiple_classes);

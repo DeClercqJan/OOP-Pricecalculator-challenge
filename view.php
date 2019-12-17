@@ -44,6 +44,9 @@
         </div>
         <div style="border: 1px solid black; float: right;">
             <?php
+            // TO DO: ADD NEW WAY
+
+            // OLD WAY, NOT HAVING CREATED CLASS FIRST          
             // dit ziet er al wat simpeler uit doordat boel op andere pagina's gebeurt, MVC-style
             foreach ($all_customers as $customer) {
                 echo "<input type=radio name=customer_selected value='$customer->name'>$customer->name<br>";

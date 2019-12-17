@@ -7,21 +7,29 @@
 // echo "test controller.php <br>";
 
 $products_object = new Product_DB();
+
 // let's make each product member of product class
-foreach ($products_object as $product_array) {
-    $products = [];
-    for ($i = 0; $i < count($product_array); $i++) {
-        $name = 'name';
-        $description = 'description';
-        $product_name = $product_array[$i]->$name;
-        $product_description = $product_array[$i]->$description;
-        $product_price = $product_array[$i]->price;
-        $product = new Product($product_name, $product_description, $product_price);
-        array_push($products, $product);
-    }
+$products_object_accessible = $products_object->get_all_products();
+$products = [];
+foreach ($products_object_accessible as $product_object) {
+    $product_name = $product_object->name;
+    $product_description = $product_object->description;
+    $product_price = $product_object->price;
+    $product = new Product($product_name, $product_description, $product_price);
+    array_push($products, $product);
 }
+
 $customers_object = new Customer_DB();
-$all_customers = $customers_object->get_all_customers();
+$customer_object_accessible = $customers_object->get_all_customers();
+$customers = [];
+foreach ($customer_object_accessible as $customer_object) {
+    echo "test";
+    var_dump($customer_object);
+    // $customer_name = $
+    // var_dump($customer);
+    // array_push($customers, $customer);
+}
+var_dump($customers);
 
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
     $products_selected = $_GET["products_selected"];
