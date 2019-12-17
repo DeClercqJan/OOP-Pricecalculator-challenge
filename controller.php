@@ -19,6 +19,7 @@ foreach ($products_object_accessible as $product_object) {
     array_push($products, $product);
 }
 
+// let's make each customer customer class + multiple other classes, using multiple databases
 $customers_object = new Customer_DB();
 $customer_object_accessible = $customers_object->get_all_customers();
 $customers = [];
@@ -30,7 +31,25 @@ foreach ($customer_object_accessible as $customer_object) {
     // var_dump($customer);
     array_push($customers, $customer);
 }
-var_dump($customers);
+// var_dump($customers);
+
+$groups_object = new Group_DB();
+$groups_object_accessible = $groups_object->get_all_groups();
+// var_dump($groups_object_accessible);
+sort($groups_object_accessible);
+// var_dump($groups_object_accessible);
+$departments = [];
+$companies = [];
+foreach ($groups_object_accessible as $group_object) {
+    var_dump($group_object);
+    if (property_exists($group_object, "group_id"))
+        {
+            echo "voor $group_object->name bestaat group_id";
+        }
+else {
+    echo "voor $group_object->name bestaat group_id niet";
+}
+    }
 
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
     $products_selected = $_GET["products_selected"];

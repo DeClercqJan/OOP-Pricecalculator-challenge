@@ -45,6 +45,23 @@ function select($product_name)
 
 class Group_DB
 {
+    private $groups;
+
+    function __construct()
+    {
+        $groups_original = file_get_contents("groups.json");
+        $groups_array = json_decode($groups_original);
+        $this->groups = $groups_array;
+    }
+
+    function __destruct()
+    {
+        // TO DO
+    }
+    function get_all_groups()
+    {
+        return $this->groups;
+    }
 }
 
 // QUESTION: DOES CUSTUMER CLASS CORRECTLY EXTENDS CLASS GROUP; TRYING IT OUT NOW
