@@ -7,29 +7,17 @@
 // echo "test controller.php <br>";
 
 $products_object = new Product_DB();
-// var_dump($products);
-// var_dump($products_object->select("hallookes"));
+$customers_object = new Customer_DB();
+$all_customers = $customers_object->get_all_customers();
 
-if (isset($_GET["products_selected"])) {
+if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
     $products_selected = $_GET["products_selected"];
-
     foreach ($products_selected as $key => $value) {
-        // moeilijk om aan te spreken
-        // echo $key;
-        // echo "$value <br>";
         $product_selected = $products_object->select($value);
         var_dump($product_selected);
-        // $test = array_search($value, $products_array->name);
-        // var_dump($test);
-        /* foreach ($products_array as $product) {
-        // var_dump($product->name);
-        if ($value == $product->name) {
-            echo "hoera! <br>";
-            var_dump($product);
-        }
-    } */
     }
 
-    // $test = $products->select();
-    // var_dump($test);
+    $customer_selected = $_GET["customer_selected"];
+    $customer = $customers_object->get_customer($customer_selected);
+    var_dump($customer);
 }

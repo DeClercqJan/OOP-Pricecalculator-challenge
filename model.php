@@ -42,6 +42,37 @@ class Product_DB
 
 class Customer_DB
 {
+    private $customers;
+
+    function __construct()
+    {
+        $customers_original = file_get_contents("customers.json");
+        $customers_array = json_decode($customers_original);
+        $this->customers = $customers_array;
+    }
+
+    function __destruct()
+    {
+        // TO DO
+    }
+
+    function get_all_customers()
+    {
+        return $this->customers;
+    }
+
+    function get_customer($customer_name)
+    {
+        foreach ($this->customers as $customer) {
+            $name = 'name';
+            if ($customer->$name == $customer_name) {
+                return $customer;
+            }
+        }
+       
+        // function set_new_customer() {}
+
+    }
 }
 
 class Group_DB
