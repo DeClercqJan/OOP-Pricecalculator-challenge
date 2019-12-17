@@ -46,25 +46,21 @@ $customers_object = new Customer_DB();
 $customer_object_accessible = $customers_object->get_all_customers();
 $customers = [];
 foreach ($customer_object_accessible as $customer_object) {
-    // var_dump($customer_object);
     $customer_name = $customer_object->name;
     $customer_group_id = $customer_object->group_id;
-    // var_dump($groups_multidimensional[1]);
     $customer_department  = "";
+    // linking multiple databases to enrich customer class
+    // IMPORTANT NOTE! this below has been with a shared identifier, that appears to be NOT ALWAYS UNIQUE. Therefore a person who actually belongs to a certain department, can be wrongly categorized as belonging to another. 
+    // Yet the assignement is very unclear and as this is an exercise, I will ignore this otherwise fatal error
     foreach ($groups_multidimensional[1] as $department) {
-        // var_dump($customer_group_id);
-        // var_dump($department);
         $name = 'name';
         $group_id = 'group_id';
-        // var_dump($department->$group_id);
         if ($customer_group_id == $department->$group_id) {
-            // echo "succes";
+            // !
             $customer_department = $department->name;
         }
     }
-
     $customer = new Customer($customer_name, 0, $customer_department, $customer_group_id, 0, 0);
-    // var_dump($customer);
     array_push($customers, $customer);
 }
 var_dump($customers);
