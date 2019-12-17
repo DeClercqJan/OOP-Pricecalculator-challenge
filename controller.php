@@ -7,36 +7,36 @@
 // echo "test controller.php <br>";
 
 $products_object = new Product_DB();
-// var_dump($products_object);
 // let's make each product member of product class
 foreach ($products_object as $product_array) {
-    // var_dump($product_array);
+    $products = [];
+    for ($i = 0; $i < count($product_array); $i++) {
+        $name = 'name';
+        $description = 'description';
+        $product_name = $product_array[$i]->$name;
+        $product_description = $product_array[$i]->$description;
+        $product_price = $product_array[$i]->price;
+        $product = new Product($product_name, $product_description, $product_price);
+        array_push($products, $product);
+    }
 }
-$products = [];
-for ($i = 0; $i < count($product_array); $i++) {
-    // var_dump($product_array[$i]);
-    $name = 'name';
-    $description = 'description';
-    $product_name = $product_array[$i]->$name;
-    $product_description = $product_array[$i]->$description;
-    $product_price = $product_array[$i]->price;
-    $product = new Product($product_name, $product_description, $product_price);
-    // var_dump($product);
-    array_push($products, $product);
-}
-// var_dump($products);
-
 $customers_object = new Customer_DB();
 $all_customers = $customers_object->get_all_customers();
 
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
     $products_selected = $_GET["products_selected"];
-    foreach ($products_selected as $key => $value) {
-        $product_selected = $products_object->select($value);
-        var_dump($product_selected);
+    var_dump($products_selected);
+    // find corresponding product in array of class objects
+    // note: think it takes less computing power to have the largest array (products) on the outside. CORRECT OR NOT?
+    foreach ($products as $product) {
+        $product_name = $product->get_product_name();
+        foreach ($products_selected as $key => $value) {
+            if ($product_name == $value) {
+                var_dump($product);
+            }
+        }
     }
-
-    $customer_selected = $_GET["customer_selected"];
+    /*    $customer_selected = $_GET["customer_selected"];
     $customer = $customers_object->get_customer($customer_selected);
-    var_dump($customer);
+    var_dump($customer); */
 }

@@ -29,7 +29,8 @@ class Product_DB
         // TO DO
     }
 
-    function select($product_name)
+    /*  DECDIDED TO DO THIS VIA CLASS THAT IS BASED ON THIS, BUT NOT DIRECTLY HERE - MORE SECURE, I THINK
+function select($product_name)
     {
         foreach ($this->products as $product) {
             $name = 'name';
@@ -37,7 +38,7 @@ class Product_DB
                 return $product;
             }
         }
-    }
+    } */
 }
 
 // NOTE: THERE ARE DIFFERENT FORMATS IN DATABASE GROUPS: DEPARTMENT, COMPANY
