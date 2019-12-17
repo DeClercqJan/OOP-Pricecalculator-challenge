@@ -25,6 +25,11 @@ $customers = [];
 foreach ($customer_object_accessible as $customer_object) {
     echo "test";
     var_dump($customer_object);
+    $customer_name = $customer_object->name;
+    $customer_group_id = $customer_object->group_id;
+    // new $customer = new Customer ($customer_name, $)
+    // function construct($name, $group_id$department_id, $department, , $company, $discount)
+
     // $customer_name = $
     // var_dump($customer);
     // array_push($customers, $customer);

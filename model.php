@@ -127,7 +127,7 @@ class Company
 
 class Department extends Company
 {
-    public $deparment_id = 0;
+    public $department_id = 0;
     public $department = "department";
     public $group_id = 0;
     function __construct($department_id, $department, $group_id, $company, $discount)
@@ -135,7 +135,7 @@ class Department extends Company
         $this->department_id = $department_id;
         $this->department = $department;
         $this->group_id = $group_id;
-        parent::__construct($department_id, $department, $group_id, $company, $discount);
+        parent::__construct($company, $discount);
     }
 }
 
@@ -143,7 +143,7 @@ class Customer extends Department
 {
     public $name = "personal name";
 
-    function construct($name, $department_id, $department, $group_id, $company, $discount)
+    function __construct($name, $department_id, $department, $group_id, $company, $discount)
     {
         $this->name = $name;
         parent::__construct($department_id, $department, $group_id, $company, $discount);
