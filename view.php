@@ -18,10 +18,17 @@
 <body>
     <form method="GET" action="index.php">
         <?php
-        foreach ($products_array as $product) {
-            //var_dump($product);
-            // moest $product->name tussen '' steken anders, deden space en quotes raar
-            echo "<input type=checkbox name='products_selected[]' value='$product->name'>$product->name kost $product->price <br>";
+        foreach ($products_object as $product_array) {
+            // var_dump($product_array);
+            // var_dump(is_array($product_array));
+            // count($product_array);
+            for ($i = 0; $i < count($product_array); $i++) {
+                // kan niet zomaar aan name die een property is tussen haakjes
+                $name = 'name';
+                $price = 'price';
+                // moet dit hieronder tussen accolades zetten, anders wil hij het niet selecteren
+                echo "<input type=checkbox name='products_selected[]' value={$product_array[$i]->$name}>{$product_array[$i]->$name} kost {$product_array[$i]->$price} <br>";
+            }
         }
         ?>
         <input type=submit>

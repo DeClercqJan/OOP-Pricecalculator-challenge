@@ -10,11 +10,38 @@ var_dump($_POST);
 var_dump($_SESSION);
 var_dump($_COOKIE);
 
-$products_original = file_get_contents("products.json");
-//var_dump($products_original);
-// $products_cleaned = htmlspecialchars($products_original);
-// var_dump($products_cleaned);
-// $products_array = json_decode($products_cleaned);
-// var_dump($products_array);
-$products_original = file_get_contents("products.json");
-$products_array = json_decode($products_original);
+// $products_original = file_get_contents("products.json");
+// $products_array = json_decode($products_original);
+
+class Product_DB
+{
+    public $products;
+    public $product;
+
+    function __construct()
+    {
+        $products_original = file_get_contents("products.json");
+        $products_array = json_decode($products_original);
+        $this->products = $products_array;
+    }
+
+    function __destruct()
+    {
+        // TO DO
+    }
+
+    function select($product_name)
+    {
+        // return $this->products;
+
+        return $product;
+    }
+}
+
+class Customer_DB
+{
+}
+
+class Group_DB
+{
+}
