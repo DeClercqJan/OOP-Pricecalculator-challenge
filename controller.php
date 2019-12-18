@@ -95,7 +95,7 @@ if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
         $product_name = $product->get_product_name();
         foreach ($products_selected as $key => $value) {
             if ($product_name == $value) {
-                // var_dump($product);
+                var_dump($product);
                 calculate_best_price($product, $customer_found);
             }
         }
@@ -104,6 +104,23 @@ if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
 
 function calculate_best_price($product, $customer_found)
 {
+    echo "the {$product->get_product_name()} kost {$product->get_product_price()} </br>";
+    foreach ($customer_found->discount as $discounts) {
+        foreach ($discounts as $key => $value) {
+            if ($value !== 0) {
+                echo "You can have a $key of $value </br>";
+                if (strpos($key, "variable") == true) {
+                    echo "$key is een percentage discount";
+                }
+                elseif (strpos($key, "variable") == true) {
+                    echo "$key is een absolute discount";
+                }
+            }
+        }
+        
+    }
+
+
     var_dump($customer_found);
     var_dump($product);
 }
