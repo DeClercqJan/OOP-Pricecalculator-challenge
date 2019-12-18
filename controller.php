@@ -47,34 +47,56 @@ $customer_object_accessible = $customers_object->get_all_customers();
 $customers = [];
 foreach ($customer_object_accessible as $customer_object) {
     $customer_name = $customer_object->name;
-    $customer_group_id = $customer_object->group_id;
+    $customer_department_id = $customer_object->group_id;
     $customer_department  = "";
+    $company_id = null;
+    $customer_company = "";
     $customer_department_discount_variable = 0;
     $customer_department_discount_fixed = 0;
+    $customer_company_discount_variable = 0;
+    $customer_company_discount_fixed = 0;
     // linking multiple databases to enrich customer class
     // IMPORTANT NOTE! this below has been with a shared identifier, that appears to be NOT ALWAYS UNIQUE. Therefore a person who actually belongs to a certain department, can be wrongly categorized as belonging to another. 
     // Yet the assignement is very unclear and as this is an exercise, I will ignore this otherwise fatal error
     foreach ($groups_multidimensional[1] as $department) {
         // var_dump($department);
         $name = 'name';
+        $id = 'id';
         $group_id = 'group_id';
-        if ($customer_group_id == $department->$group_id) {
+        // if ($customer_group_id == $department->$group_id) {
+        // received a tip: group id of customer would refer to id of department
+        if ($customer_department_id == $department->$id) {
+
             // !
             $customer_department = $department->name;
+            $company_id = $department->group_id;
             if (property_exists($department, "variable_discount")) {
                 $customer_department_discount_variable = $department->variable_discount;
             } else if (property_exists($department, "fixed_discount")) {
                 $customer_department_discount_fixed = $department->fixed_discount;
             }
+
+            foreach ($groups_multidimensional[0] as $company) {
+                // var_dump($company);
+                if ($department->$group_id == $company->$id) {
+                    $customer_company = $company->name;
+                    if (property_exists($company, "variable_discount")) {
+                        $customer_company_discount_variable = $company->variable_discount;
+                    } else if (property_exists($company, "fixed_discount")) {
+                        $customer_company_discount_fixed = $company->fixed_discount;
+                    }
+                }
+            }
         }
     }
-    $customer = new Customer($customer_name, 0, $customer_department, $customer_group_id, "companynaam", $customer_department_discount_variable, $customer_department_discount_fixed, 0, 0);
+    $customer = new Customer($customer_name, $customer_department, $customer_department_id, $company_id, $customer_company, $customer_department_discount_variable, $customer_department_discount_fixed, $customer_company_discount_variable, $customer_company_discount_fixed);
+    // ($name, $company_id, $department, $department_id, $company, $department_discount_variable, $department_discount_fixed, $company_discount_variable, $company_discount_fixed)
     array_push($customers, $customer);
 }
 // var_dump($customers);
 foreach ($customers as $customer) {
     var_dump($customer);
-    var_dump($customer->discount);
+    // var_dump($customer->discount);
 }
 
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
