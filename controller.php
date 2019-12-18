@@ -49,21 +49,33 @@ foreach ($customer_object_accessible as $customer_object) {
     $customer_name = $customer_object->name;
     $customer_group_id = $customer_object->group_id;
     $customer_department  = "";
+    $customer_department_discount_variable = 0;
+    $customer_department_discount_fixed = 0;
     // linking multiple databases to enrich customer class
     // IMPORTANT NOTE! this below has been with a shared identifier, that appears to be NOT ALWAYS UNIQUE. Therefore a person who actually belongs to a certain department, can be wrongly categorized as belonging to another. 
     // Yet the assignement is very unclear and as this is an exercise, I will ignore this otherwise fatal error
     foreach ($groups_multidimensional[1] as $department) {
+        // var_dump($department);
         $name = 'name';
         $group_id = 'group_id';
         if ($customer_group_id == $department->$group_id) {
             // !
             $customer_department = $department->name;
+            if (property_exists($department, "variable_discount")) {
+                $customer_department_discount_variable = $department->variable_discount;
+            } else if (property_exists($department, "fixed_discount")) {
+                $customer_department_discount_fixed = $department->fixed_discount;
+            }
         }
     }
-    $customer = new Customer($customer_name, 0, $customer_department, $customer_group_id, 0, 0);
+    $customer = new Customer($customer_name, 0, $customer_department, $customer_group_id, "companynaam", $customer_department_discount_variable, $customer_department_discount_fixed, 0, 0);
     array_push($customers, $customer);
 }
-var_dump($customers);
+// var_dump($customers);
+foreach ($customers as $customer) {
+    var_dump($customer);
+    var_dump($customer->discount);
+}
 
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
     $products_selected = $_GET["products_selected"];

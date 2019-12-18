@@ -134,25 +134,31 @@ class Product
 class Company
 {
     public $company = "company";
-    public $discount = 0;
-    function __construct($company, $discount)
+    // weird bricolage in order to get 1) all possible discounts in one multidimensional array 2) separate construction by level (there are 2 declarations of $discount properties in both Company class and Department class)
+    public $discount = ["department_discount" => ["test", "test"], "company_discount" => ["company_discount_variable" => 0, "company_discount_fixed" => 0]];
+    function __construct($company, $company_discount_variable, $company_discount_fixed, $department_discount)
     {
         $this->company = $company;
-        $this->discount = $discount;
+        $this->discount = ["department_discount" => $department_discount, "company_discount" => ["company_discount_variable" => $company_discount_variable, "company_discount_fixed" => $company_discount_fixed]];
     }
 }
 
 class Department extends Company
 {
+    // QUESTION: IS THERE ANY USE FOR DEPARTMENT_ID?
     public $department_id = 0;
     public $department = "department";
     public $group_id = 0;
-    function __construct($department_id, $department, $group_id, $company, $discount)
+    public $discount = ["department_discount" => [0, 0], "company_discount" => ["company_discount_variable" => 0, "company_discount_fixed" => 0]];
+    //  public $department_discount = ["department_discount_variable" => 0, "department_discount_fixed" => 0];
+    function __construct($department_id, $department, $group_id, $company, $department_discount_variable, $department_discount_fixed, $company_discount_variable, $company_discount_fixed)
     {
         $this->department_id = $department_id;
         $this->department = $department;
         $this->group_id = $group_id;
-        parent::__construct($company, $discount);
+        $this->discount = ["department_discount" => ["department_discount_variable" => $department_discount_variable, "department_discount_fixed" => $department_discount_fixed], "company_discount" => [0, 0]];
+        // I can also send a variable that was only created here to its parent
+        parent::__construct($company, $company_discount_variable, $company_discount_fixed, $this->discount["department_discount"]);
     }
 }
 
@@ -160,10 +166,10 @@ class Customer extends Department
 {
     public $name = "personal name";
 
-    function __construct($name, $department_id, $department, $group_id, $company, $discount)
+    function __construct($name, $department_id, $department, $group_id, $company, $department_discount_variable, $department_discount_fixed, $company_discount_variable, $company_discount_fixed)
     {
         $this->name = $name;
-        parent::__construct($department_id, $department, $group_id, $company, $discount);
+        parent::__construct($department_id, $department, $group_id, $company, $department_discount_variable, $department_discount_fixed, $company_discount_variable, $company_discount_fixed);
     }
 
     function get_customer_name()
