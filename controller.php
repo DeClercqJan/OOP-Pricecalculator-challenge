@@ -105,22 +105,68 @@ if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
 function calculate_best_price($product, $customer_found)
 {
     echo "the {$product->get_product_name()} kost {$product->get_product_price()} </br>";
+    // For the customer group: In case of variable discounts look for highest discount of all the groups the user has.
+    $discount_variable_array = [];
+    // If some groups have fixed discounts, count them all up.
+    $discount_fixed_sum = 0;
     foreach ($customer_found->discount as $discounts) {
         foreach ($discounts as $key => $value) {
             if ($value !== 0) {
                 echo "You can have a $key of $value </br>";
-                if (strpos($key, "variable") == true) {
-                    echo "$key is een percentage discount";
-                }
-                elseif (strpos($key, "variable") == true) {
-                    echo "$key is een absolute discount";
+                // unclear requirment: First subtract fixed amounts, then percentages!
+                if (strpos($key, "fixed") == true) {
+                    // testcase voor sum van fixed: 'Bruna Levering
+                    //echo "$key is een absolute discount </br>";
+                    // var_dump("current discount is $value");
+                    $discount = $value;
+                    $price = $product->get_product_price();
+                    // ASSIGNMENT: If some groups have fixed discounts, count them all up.
+                    $discount_fixed_sum += $discount;
+                    // var_dump("current state of fixe discount sum is $discount_fixed_sum");
+                    $offer_discount_fixed_sum = $price - $discount_fixed_sum;
+                } else if (strpos($key, "variable") == true) {
+                    // echo "$key is een percentage discount </br>";
+                    $discount_variable = $value / 100;
+                    array_push($discount_variable_array, $discount_variable);
                 }
             }
         }
-        
     }
-
-
-    var_dump($customer_found);
-    var_dump($product);
+    $offer_variable = 0;
+    $offer_fixed = 0;
+    if (!empty($discount_variable_array)) {
+        var_dump($discount_variable_array);
+        $discount_variable_highest = max($discount_variable_array);
+        $price = $product->get_product_price();
+        $offer_discount_variable_highest = $price - $price * $discount_variable_highest;
+        // echo "echte kost van {$product->get_product_name()} op basis van de hoogste (van mogelijke meerdere) variabele discounts is $offer_discount_variable_highest</br>";
+        $offer_variable = $offer_discount_variable_highest;
+    } elseif (!$discount_fixed_sum == 0) {
+        // echo "echte kost van {$product->get_product_name()} op basis van (mogelijke meerdere) fixed discounts is $offer_discount_fixed_sum </br>";
+        $offer_fixed = $offer_discount_fixed_sum;
+    }
+    // A price can never be negative.
+    if ($offer_variable < 0) {
+        $offer_variable = 0;
+    }
+    // note: no else_if here as otherwise it would not catch the case in which both are less than 0
+    if ($offer_variable < 0) {
+        $offer_variable = 0;
+    }
+    // Look which discount (fixed or variable) will give the customer the most value.
+    if ($offer_variable == 0 || $offer_fixed == 0) {
+        echo "you can get the {$product->get_product_name()} (normal cost {$product->get_product_price()} euro) for free! Because the best variable offer is $offer_variable and the (sum of) fixed amount discount amount to a final price of $offer_fixed";
+    } elseif ($offer_variable > $offer_fixed) {
+        echo "the best offer for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro) is $offer_variable euro, because one variable discount was higher than any other variable discount or (sum of) fixed discount";
+    } elseif ($offer_variable < $offer_fixed) {
+        echo "the best offer for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro) is $offer_fixed euro, because one variable discount was higher than any other variable discount or (sum of) fixed discount";
+    } elseif ($offer_variable == $offer_fixed) {
+        echo "there are equally good offers for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro): the highest variable discount amounts to a cost $offer_variable, the (sum of) fixed discount(s) is $offer_fixed";
+    }
+    // var_dump($customer_found);
+    // var_dump($product);
 }
+// foreach ($customers as $customers) {
+//     var_dump($customers->name);
+//     var_dump($customers->discount);
+// }
