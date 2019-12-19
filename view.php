@@ -12,49 +12,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>OOP-Pricecalculator-challenge</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-    <form method="GET" action="index.php">
-        <!-- note: deze hier eventjes gezet om gemakkelijker te werken -->
-        <div>
-            <input type=submit>
-        </div>
-        <div style="border: 1px solid black; float: left;">
-            <?php
-            foreach ($products as $product) {
-                // moet dit hieronder tussen accolades zetten, anders wil hij het niet selecteren + moet die dan nog in 1 geval tussen quotes schrijven ...
-                echo "<input type=checkbox name='products_selected[]' value='{$product->get_product_name()}'>{$product->get_product_name()} kost {$product->get_product_price()} <br>";
-            }
-            /* OLD WAY, NOT HAVING CREATED CLASS FIRST          
-   foreach ($products_object as $product_array) {
-                // var_dump($product_array);
-                // var_dump(is_array($product_array));
-                // count($product_array);
-                for ($i = 0; $i < count($product_array); $i++) {
-                    // kan niet zomaar aan name die een property is tussen haakjes
-                    $name = 'name';
-                    $price = 'price';
-                    // moet dit hieronder tussen accolades zetten, anders wil hij het niet selecteren + moet die dan nog in 1 geval tussen quotes schrijven ...
-                    echo "<input type=checkbox name='products_selected[]' value='{$product_array[$i]->$name}'>{$product_array[$i]->$name} kost {$product_array[$i]->$price} <br>";
-                }
-            } */
-            ?>
-        </div>
-        <div style="border: 1px solid black; float: right;">
-            <?php
-            foreach ($customers as $customer) {
-                echo "<input type=radio name=customer_selected value='{$customer->get_customer_name()}'>{$customer->get_customer_name()}<br>";
-            }
-            /* OLD WAY, NOT HAVING CREATED CLASS FIRST          
-            // dit ziet er al wat simpeler uit doordat boel op andere pagina's gebeurt, MVC-style
-            foreach ($all_customers as $customer) {
-                echo "<input type=radio name=customer_selected value='$customer->name'>$customer->name<br>";
-            } */
-            ?>
-        </div>
+    <header>
+        <h1>Pay less! </h1>
+    </header>
+    <article>
+        <h2>Get the best combination of discounts for a range of products</h2>
+        <form method="GET" action="index.php">
+            <div>
+                <label for="products">Select one or more products (hold shift to do so)</label>
+                <select id="products" name="products_selected[]" multiple>
+
+                    <?php foreach ($products as $product) {
+                    ?>
+                        <option value=<?php echo "'{$product->get_product_name()}'"; ?>>
+                            <?php echo "{$product->get_product_name()} kost {$product->get_product_price()} <br>"; ?>
+                        </option><?php
+                                    } ?>
+                </select>
+            </div>
+            <div>
+                <label for="customers">Select client</label>
+                <input list="customers" placeholder="Start typing..." name="customer_selected">
+                <datalist id="customers">
+                    <?php foreach ($customers as $customer) {
+                    ?>
+                        <option value="<?php echo $customer->get_customer_name(); ?>">
+                        <?php
+                                    } ?>
+                </datalist>
+
+            </div>
+            <div style="">
+                <input type=submit value="Get the best deal"></input>
+            </div>
+    </article>
     </form>
+    <div id="results">
+        <?php foreach ($result_array as $result) {
+        ?><p><?php echo $result; ?></p><?php
+                                        }
+                                            ?>
+    </div>
 </body>
 
 </html>

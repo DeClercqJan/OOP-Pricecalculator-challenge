@@ -6,11 +6,11 @@
 // echo "test model.php <br>";
 
 // deze hier gezet om ik deze file het eerst aanroep
-var_dump($_GET);
+/* var_dump($_GET);
 var_dump($_POST);
 var_dump($_SESSION);
 var_dump($_COOKIE);
-
+ */
 class Product_DB
 {
     private $products;
