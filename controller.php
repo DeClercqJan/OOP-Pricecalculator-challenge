@@ -75,28 +75,55 @@ foreach ($customer_object_accessible as $customer_object) {
 
 $result_array = [];
 
+// note: bit of a weird validation. Did this at the end as an extra
 if (isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
-    $customer_found = "";
-    $customer_selected = $_GET["customer_selected"];
-    foreach ($customers as $customer) {
-        if ($customer_selected == $customer->name) {
-            $customer_found = $customer;
-        }
-    }
-    $products_selected = $_GET["products_selected"];
-    // var_dump($products_selected);
-    // find corresponding product in array of class objects
-    // note: think it takes less computing power to have the largest array (products) on the outside. CORRECT OR NOT?
-    foreach ($products as $product) {
-        $product_name = $product->get_product_name();
-        foreach ($products_selected as $key => $value) {
-            if ($product_name == $value) {
-                $result = calculate_best_price($product, $customer_found);
-                array_push($result_array, $result);
+    // var_dump($_GET["products_selected"]);
+    // var_dump($_GET["products_selected"][0]);
+    if (!empty($_GET["products_selected"]) && !empty($_GET["customer_selected"])) {
+        $customer_found = "";
+        $customer_selected = $_GET["customer_selected"];
+        foreach ($customers as $customer) {
+            if ($customer_selected == $customer->name) {
+                $customer_found = $customer;
             }
         }
+        $products_selected = $_GET["products_selected"];
+        // var_dump($products_selected);
+        // find corresponding product in array of class objects
+        // note: think it takes less computing power to have the largest array (products) on the outside. CORRECT OR NOT?
+        foreach ($products as $product) {
+            $product_name = $product->get_product_name();
+            foreach ($products_selected as $key => $value) {
+                if ($product_name == $value) {
+                    $result = calculate_best_price($product, $customer_found);
+                    array_push($result_array, $result);
+                }
+            }
+        }
+    } else if (!empty($_GET["products_selected"]) && empty($_GET["customer_selected"])) {
+        if ($_GET["products_selected"][0] == "") {
+            echo "you need to select one or more products before clicking the button 2";
+        } elseif (($_GET["products_selected"][0] !== "") && ($_GET["customer_selected"]) == "") {
+            echo  "you need to select a customer before clicking the button";
+        } else {
+            echo  "you need to select a customer before clicking the button";
+        }
+    }
+} elseif (!isset($_GET["products_selected"]) && isset($_GET["customer_selected"])) {
+    if ($_GET["customer_selected"] == "") {
+        echo "you need to select one or more products before clicking the button AND you need to select a customer before clicking the button";
+    } else {
+        echo "you need to select one or more products before clicking the button 1";
     }
 }
+
+
+/* elseif (!empty($_GET["products_selected"]) && $_GET["customer_selected"] !== "") {
+
+    echo "you need to select a customer before clicking the button";
+} elseif (empty($_GET["products_selected"]) && ($_GET["customer_selected"] == "")) {
+    echo "you need to select one or more products before clicking the button";
+} */
 
 // var_dump($customer_found);
 
@@ -159,7 +186,9 @@ function calculate_best_price($product, $customer_found)
         $result = "the best offer for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro) is $offer_variable euro, because one variable discount was better than any other variable discount or (sum of) fixed discount, which was $offer_fixed </br>";
     } elseif ($offer_variable > $offer_fixed) {
         //        echo "the best offer for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro) is $offer_fixed euro, because the (sum of) fixed discount(s) was better than the highest variable discount, which was $offer_variable</br>";
+
         $result = "the best offer for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro) is $offer_fixed euro, because the (sum of) fixed discount(s) was better than the highest variable discount, which was $offer_variable</br>";
+        var_dump($result);
     } elseif ($offer_variable == $offer_fixed) {
         //  echo "there are equally good offers for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro): the highest variable discount amounts to a cost $offer_variable, the (sum of) fixed discount(s) is $offer_fixed </br>";
         $result = "there are equally good offers for {$product->get_product_name()} (normal cost {$product->get_product_price()} euro): the highest variable discount amounts to a cost $offer_variable, the (sum of) fixed discount(s) is $offer_fixed </br>";

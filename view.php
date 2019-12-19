@@ -30,9 +30,13 @@
                     <?php foreach ($products as $product) {
                     ?>
                         <option value=<?php echo "'{$product->get_product_name()}'"; ?>>
-                            <?php echo "{$product->get_product_name()} kost {$product->get_product_price()} <br>"; ?>
-                        </option><?php
+                            <?php echo "{$product->get_product_name()} ({$product->get_product_price()} euro) <br>
+                            description: {$product->get_product_description()}"; ?>
+                        </option>
+                    <?php
+
                                     } ?>
+
                 </select>
             </div>
             <div>
@@ -54,9 +58,12 @@
     </form>
     <div id="results">
         <?php foreach ($result_array as $result) {
-        ?><p><?php echo $result; ?></p><?php
-                                        }
-                                            ?>
+        ?><p><?php echo $result; ?></p>
+            <!-- TO DO: category page -->
+            <a href="test">See product info</a>
+        <?php
+                                    }
+        ?>
     </div>
 </body>
 
