@@ -106,7 +106,7 @@ class Product
     // A product (product name, description, price)
     private $product_name = "productnaam";
     private $description = "beschrijving product";
-    private $price = 0;
+    private $price = null;
     public function __construct($product_name, $description, $price)
     {
         $this->product_name = $product_name;
@@ -136,7 +136,7 @@ class Company
     public $company = "company";
     
     // weird bricolage in order to get 1) all possible discounts in one multidimensional array 2) separate construction by level (there are 2 declarations of $discount properties in both Company class and Department class)
-    public $discount = ["department_discount" => ["test", "test"], "company_discount" => ["company_discount_variable" => 0, "company_discount_fixed" => 0]];
+    public $discount = ["department_discount" => ["test", "test"], "company_discount" => ["company_discount_variable" => null, "company_discount_fixed" => null]];
     function __construct($company, $company_discount_variable, $company_discount_fixed, $department_discount)
     {
         $this->company = $company;
@@ -150,7 +150,7 @@ class Department extends Company
     public $company_id;
     public $department = "department";
     public $department_id;
-    public $discount = ["department_discount" => [0, 0], "company_discount" => ["company_discount_variable" => 0, "company_discount_fixed" => 0]];
+    public $discount = ["department_discount" => [null, null], "company_discount" => ["company_discount_variable" => null, "company_discount_fixed" => null]];
     //  public $department_discount = ["department_discount_variable" => 0, "department_discount_fixed" => 0];
     function __construct($company_id, $department, $department_id, $company, $department_discount_variable, $department_discount_fixed, $company_discount_variable, $company_discount_fixed)
     {
