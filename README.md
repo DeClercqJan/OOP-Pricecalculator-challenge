@@ -1,4 +1,27 @@
-BELOW THE ORIGINAL ASSIGNMENT
+## OOP-Pricecalculator-challenge
+
+# Basic idea
+
+- Get the best deal by comparing multiple (combinations of) discounts for a (basket of) product(s).
+- Becode PHP exercise (see original assignement/requirements below)
+
+# Implementation
+
+- MVC + Object Oriented Programming patterns
+- classes for database calls
+- customer class that inherits from department and company classes
+- use of getter/setter functions
+- split groups.json into departments and companies
+- link customer group id to department id and department group id to company id to populate customer object
+
+# TO DO'S
+
+- add destructor methods on db classes
+- put the thing on some server other than GitHub pages
+- clean up code a little
+
+## BELOW THE ORIGINAL ASSIGNMENT
+
 
 # Title: OOP Pricecalculator challenge
 
